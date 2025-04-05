@@ -29,7 +29,7 @@ class AFHQDataset(Dataset):
         # e.g. cat images are udner data/afhq/train/cat
         self.categories = os.listdir(self.root_dir / self.dataset_split)
 
-        print(f'categories {self.categories}')
+        # print(f'categories {self.categories}')
 
         self.num_categories = len(self.categories)
         self.catID2label = {(i + self.class_label_offset) : cat for i, cat in
@@ -42,7 +42,7 @@ class AFHQDataset(Dataset):
         for catID, cat in enumerate(self.categories):
             cat_dir = self.root_dir / self.dataset_split / cat
 
-            print(f'image cat path: {cat_dir}')
+            # print(f'image cat path: {cat_dir}')
 
             img_paths = self._list_images(cat_dir)
             if self.max_samples_per_class > 0:
@@ -81,7 +81,7 @@ class AFHQDatasetHelper():
     '''
     def __init__(self,
                  root_dir: str,
-                 img_reslution: int = 64,
+                 img_resolution: int = 64,
                  max_samples_per_class: int = -1,
                  class_label_offset: int = 1, # 0 for NULL class
                  batch_size: int = 32,
@@ -92,7 +92,7 @@ class AFHQDatasetHelper():
                  drop_last: bool = False,
     ):
         self.root_dir = root_dir
-        self.resolution = img_reslution
+        self.resolution = img_resolution
         self.max_samples_per_class = max_samples_per_class
         self.class_label_offset = class_label_offset
         self.batch_size = batch_size
@@ -129,7 +129,7 @@ class AFHQDatasetHelper():
 
         # doiwnload the dataset if it doesn't exist
         if not os.path.exists(self.root_dir):
-            self._donwload_dataset()
+            self._download_dataset()
 
         self.afhq_root = self.root_dir / Path("afhq")
 
@@ -137,8 +137,9 @@ class AFHQDatasetHelper():
         self._create_datasets()
 
 
-    def _donwload_dataset(self):
+    def _download_dataset(self):
 
+        # For dropbox, dl=1 is required to download
         url = "https://www.dropbox.com/s/t9l9o3vsx2jai3z/afhq.zip?dl=1"
         zip_path = os.path.join(self.root_dir, "afhq.zip")
 
@@ -208,37 +209,37 @@ class AFHQDatasetHelper():
 
         return val_loader
 
-
-if __name__ == "__main__":
-    # Test wheter dataset is downloaded and DataLoader is working
-    root_dir = "data"
-    img_reslution = 64
-    max_samples_per_class = 1000000
-    batch_size = 32
-    num_workers = 4
-    pin_memory = True
-    shuffle = True
-    drop_last = True
-
-    dataset_helper = AFHQDatasetHelper(
-        root_dir=root_dir,
-        img_reslution=img_reslution,
-        max_samples_per_class=max_samples_per_class,
-        batch_size=batch_size,
-        num_workers=num_workers,
-        pin_memory=pin_memory,
-        shuffle=shuffle,
-        drop_last=drop_last
-    )
-
-    train_loader = dataset_helper.get_train_loader()
-    val_loader = dataset_helper.get_val_loader()
-    print(f"Number of classes: {dataset_helper.num_classes}")
-    print(f"Number of train samples: {len(dataset_helper.train_set)}")
-    print(f"Number of val samples: {len(dataset_helper.val_set)}")
-
-    for i, (img, label) in enumerate(train_loader):
-        print(f"Batch {i}:")
-        print(f"Image shape: {img.shape}")
-        print(f"Label shape: {label.shape}")
-        print(f"Label: {label}")
+#
+# if __name__ == "__main__":
+#     # Test wheter dataset is downloaded and DataLoader is working
+#     root_dir = "data"
+#     img_resolution = 64
+#     max_samples_per_class = 1000000
+#     batch_size = 32
+#     num_workers = 4
+#     pin_memory = True
+#     shuffle = True
+#     drop_last = True
+#
+#     dataset_helper = AFHQDatasetHelper(
+#         root_dir=root_dir,
+#         img_resolution=img_resolution,
+#         max_samples_per_class=max_samples_per_class,
+#         batch_size=batch_size,
+#         num_workers=num_workers,
+#         pin_memory=pin_memory,
+#         shuffle=shuffle,
+#         drop_last=drop_last
+#     )
+#
+#     train_loader = dataset_helper.get_train_loader()
+#     val_loader = dataset_helper.get_val_loader()
+#     print(f"Number of classes: {dataset_helper.num_classes}")
+#     print(f"Number of train samples: {len(dataset_helper.train_set)}")
+#     print(f"Number of val samples: {len(dataset_helper.val_set)}")
+#
+#     for i, (img, label) in enumerate(train_loader):
+#         print(f"Batch {i}:")
+#         print(f"Image shape: {img.shape}")
+#         print(f"Label shape: {label.shape}")
+#         print(f"Label: {label}")
