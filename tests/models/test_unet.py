@@ -43,5 +43,9 @@ class TestUNet(unittest.TestCase):
         self.assertEqual(x.grad.shape, x.shape)
         self.assertFalse(torch.isnan(x.grad).any(), "Gradient has NaNs")
 
+
+    def test_model_has_parameters(self):
+        self.assertTrue(any(p.requires_grad for p in self.model.parameters()))
+
 if __name__ == '__main__':
     unittest.main()

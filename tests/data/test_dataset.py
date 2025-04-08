@@ -7,6 +7,7 @@ import os
 # sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 
 from data.dataset import AFHQDatasetHelper  # now correctly imports your dataset
+from utils.get_infinite_generator import get_infinite_generator
 
 class TestAFHQDataset(unittest.TestCase):
     def setUp(self):
@@ -34,7 +35,10 @@ class TestAFHQDataset(unittest.TestCase):
 
     def test_loader_shapes(self):
         train_loader = self.dataset_helper.get_train_loader()
-        batch = next(iter(train_loader))
+        train_loader_gen =get_infinite_generator(train_loader)
+        # batch = next(iter(train_loader))
+        batch = next(train_loader_gen)
+        batch = next(train_loader_gen)
         images, labels = batch
 
         self.assertEqual(images.shape[1:], (3, self.img_resolution, self.img_resolution))

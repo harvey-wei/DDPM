@@ -181,6 +181,11 @@ class UNet(nn.Module):
         :return : (batch_size, 3, img_res, img_res), [B, 3, H, W]
         :notes: denoise an batch of noisier images to a less noisy image
         '''
+        assert x.dim() == 4, f"Input x should be of shape [B, 3, H, W], but got {x.shape}"
+
+        B, _, _, _ = x.shape
+
+        assert timestep.shape == (B,), f"timestep shape {timestep.shape} should be of shape [B,]"
 
         time_embed = self.timestep_embed_layer(timestep) # [B, 4*base_ch]
 
