@@ -1,45 +1,27 @@
 # DDPM for Image Generation
 
-The project structure is as follows:
+This repository contains a PyTorch implementation of Denoising Diffusion Probabilistic Models (DDPM)
+for image generation.
 
+The code is based on the paper [Denoising Diffusion Probabilistic
+Models](https://arxiv.org/abs/2006.11239) by Ho et al.
+
+The Denoising Network adopts the architectural design spirit seminal UNet for meidical image segmentation
+but leverage preactivatioin ResBlocks and Self-Attention Layers for better performance.
+
+## Training
+The training script is located in `train.py`. You can run the training script with the following command:
+
+```bash
+python train.py
 ```
-ddpm_project/
-│
-├── configs/                  # YAML/JSON configs
-│   └── default.yaml
-│
-├── models/                   # Network architectures
-│   ├── unet.py
-│   ├── resblock.py
-│   ├── attention.py
-│   ├── time_embedding.py
-│   └── __init__.py
-│
-├── diffusion/                # DDPM forward/reverse processes
-│   ├── diffusion.py
-│   ├── scheduler.py
-│   └── __init__.py
-│
-├── data/                     # Dataset loaders
-│   ├── loader.py
-│   └── transforms.py
-│
-├── metrics/                  # FID computation and Inception model
-│   ├── inception.py          # Pretrained InceptionV3 wrapper
-│   ├── measure_fid.py        # FID computation logic
-│   └── __init__.py
-│
-├── utils/                    # General utilities
-│   ├── utils.py
-│   ├── ema.py
-│   └── __init__.py
-│
-├── train.py                  # Training script
-├── sample.py                 # Sampling/generated image script
-├── evaluate.py               # FID/IS/LS evaluation
-├── main.py                   # Central experiment runner (optional CLI)
-│
-├── requirements.txt
-└── README.md
 
+## Sampling new images
+The sampling script is located in `sample.py`. You can run the sampling script with the following command:
+
+```bash
+python sample.py \
+  --checkpoint_path path_to_ckpt_pth \
+  --num_samples 2 \
+  --save_dir generated_images
 ```
