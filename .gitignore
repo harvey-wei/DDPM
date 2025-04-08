@@ -111,3 +111,4 @@ datasets/
 __MACOSX/
 
 checkpoints/
+generated_images/

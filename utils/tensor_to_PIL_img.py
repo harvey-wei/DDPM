@@ -23,7 +23,7 @@ def tensor_to_PIL_img(x: torch.tensor):
     # Convet img numpy to PIL images
     imgs  = [Image.fromarray(img) for img in imgs]
 
-    return imgs[0] if is_one_img else imgs
+    return imgs
 
 
 if __name__ == '__main__':
